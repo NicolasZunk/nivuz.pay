@@ -3,626 +3,199 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout PIX - Pixup</title>
+  <title>Checkout PIX - Pixup (Debug Mode)</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-      background: linear-gradient(135deg, #fdf2f4 0%, #ffffff 50%, #fce7eb 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 420px;
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .header-icon {
-      width: 64px;
-      height: 64px;
-      background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
-      border-radius: 16px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-      box-shadow: 0 10px 30px rgba(225, 29, 72, 0.3);
-    }
-
-    .header-icon svg {
-      width: 32px;
-      height: 32px;
-      color: white;
-    }
-
-    .header h1 {
-      font-size: 28px;
-      font-weight: 700;
-      color: #1f2937;
-      margin-bottom: 4px;
-    }
-
-    .header p {
-      color: #6b7280;
-      font-size: 14px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 20px 50px rgba(225, 29, 72, 0.1);
-      overflow: hidden;
-    }
-
-    .card-header {
-      background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
-      color: white;
-      padding: 20px 24px;
-    }
-
-    .card-header h2 {
-      font-size: 18px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .card-header svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .card-content {
-      padding: 24px;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 14px;
-      font-weight: 500;
-      color: #374151;
-      margin-bottom: 6px;
-    }
-
-    .form-group input {
-      width: 100%;
-      height: 44px;
-      padding: 0 14px;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      font-size: 14px;
-      transition: all 0.2s;
-      outline: none;
-    }
-
-    .form-group input:focus {
-      border-color: #e11d48;
-      box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1);
-    }
-
-    .form-group input.valor-input {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .separator {
-      height: 1px;
-      background: #e5e7eb;
-      margin: 20px 0;
-    }
-
-    .btn {
-      width: 100%;
-      height: 48px;
-      background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.2s;
-      box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(225, 29, 72, 0.4);
-    }
-
-    .btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .btn svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .btn-outline {
-      background: white;
-      color: #374151;
-      border: 1px solid #e5e7eb;
-      box-shadow: none;
-    }
-
-    .btn-outline:hover {
-      background: #f9fafb;
-      box-shadow: none;
-    }
-
-    .security-badge {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 16px;
-      font-size: 12px;
-      color: #6b7280;
-    }
-
-    .security-badge svg {
-      width: 14px;
-      height: 14px;
-    }
-
-    /* QR Code Screen */
-    .qr-container {
-      display: none;
-    }
-
-    .qr-container.active {
-      display: block;
-    }
-
-    .form-container.hidden {
-      display: none;
-    }
-
-    .qr-header {
-      text-align: center;
-    }
-
-    .qr-header p {
-      font-size: 14px;
-      opacity: 0.9;
-      margin-top: 4px;
-    }
-
-    .qr-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .qr-box {
-      background: white;
-      padding: 16px;
-      border-radius: 16px;
-      border: 2px solid rgba(225, 29, 72, 0.2);
-    }
-
-    .qr-box img {
-      width: 224px;
-      height: 224px;
-      display: block;
-    }
-
-    .copy-section {
-      width: 100%;
-    }
-
-    .copy-section p {
-      font-size: 14px;
-      color: #6b7280;
-      text-align: center;
-      margin-bottom: 12px;
-    }
-
-    .copy-row {
-      display: flex;
-      gap: 8px;
-    }
-
-    .copy-row input {
-      flex: 1;
-      height: 44px;
-      padding: 0 12px;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      font-size: 11px;
-      outline: none;
-    }
-
-    .copy-btn {
-      width: 44px;
-      height: 44px;
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .copy-btn svg {
-      width: 20px;
-      height: 20px;
-      color: #6b7280;
-    }
-
-    .copy-btn:hover {
-      background: #f9fafb;
-    }
-
-    .copy-btn.copied {
-      background: #dcfce7;
-      border-color: #86efac;
-    }
-
-    .copy-btn.copied svg {
-      color: #16a34a;
-    }
-
-    /* Toast */
-    .toast {
-      position: fixed;
-      bottom: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #1f2937;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      transition: bottom 0.3s;
-      z-index: 1000;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .toast.show {
-      bottom: 24px;
-    }
-
-    .toast.success {
-      background: #16a34a;
-    }
-
-    .toast.error {
-      background: #dc2626;
-    }
-
-    /* Spinner animation */
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .spinner {
-      animation: spin 1s linear infinite;
-    }
+    * {margin: 0; padding: 0; box-sizing: border-box;}
+    body {font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; background: linear-gradient(135deg, #fdf2f4 0%, #ffffff 50%, #fce7eb 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;}
+    .container {width: 100%; max-width: 420px;}
+    .header {text-align: center; margin-bottom: 32px;}
+    .header-icon {width: 64px; height: 64px; background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; box-shadow: 0 10px 30px rgba(225, 29, 72, 0.3);}
+    .header-icon svg {width: 32px; height: 32px; color: white;}
+    .header h1 {font-size: 28px; font-weight: 700; color: #1f2937; margin-bottom: 4px;}
+    .header p {color: #6b7280; font-size: 14px;}
+    .card {background: white; border-radius: 16px; box-shadow: 0 20px 50px rgba(225, 29, 72, 0.1); overflow: hidden;}
+    .card-header {background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); color: white; padding: 20px 24px;}
+    .card-header h2 {font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px;}
+    .card-header svg {width: 20px; height: 20px;}
+    .card-content {padding: 24px;}
+    .form-group {margin-bottom: 16px;}
+    .form-group label {display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 6px;}
+    .form-group input {width: 100%; height: 44px; padding: 0 14px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 14px; transition: all 0.2s; outline: none;}
+    .form-group input:focus {border-color: #e11d48; box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1);}
+    .form-group input.valor-input {font-size: 18px; font-weight: 600;}
+    .separator {height: 1px; background: #e5e7eb; margin: 20px 0;}
+    .btn {width: 100%; height: 48px; background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);}
+    .btn:hover {transform: translateY(-1px); box-shadow: 0 6px 20px rgba(225, 29, 72, 0.4);}
+    .btn:disabled {opacity: 0.7; cursor: not-allowed; transform: none;}
+    .btn svg {width: 20px; height: 20px;}
+    .security-badge {display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; font-size: 12px; color: #6b7280;}
+    .security-badge svg {width: 14px; height: 14px;}
+    .toast {position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: #1f2937; color: white; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 500; transition: bottom 0.3s; z-index: 1000; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); max-width: 90%;}
+    .toast.show {bottom: 24px;}
+    .toast.success {background: #16a34a;}
+    .toast.error {background: #dc2626;}
+    .debug {position: fixed; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.9); color: #0f0; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 10px; max-width: 350px; max-height: 180px; overflow-y: auto; z-index: 9999;}
+    .debug div {margin-bottom: 3px; word-break: break-all;}
+    @keyframes spin {to { transform: rotate(360deg); }}
+    .spinner {animation: spin 1s linear infinite;}
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <div class="header-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
       </div>
       <h1>Checkout PIX</h1>
-      <p>Pagamento rápido e seguro</p>
+      <p>Pagamento rápido e seguro (Debug ON)</p>
     </div>
-
     <div class="card">
-      <!-- Form Container -->
-      <div class="form-container" id="formContainer">
-        <div class="card-header">
-          <h2>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-            </svg>
-            Dados do Pagamento
-          </h2>
-        </div>
-        <div class="card-content">
-          <form id="paymentForm">
-            <div class="form-group">
-              <label for="nome">Nome Completo *</label>
-              <input type="text" id="nome" placeholder="Seu nome completo" required maxlength="100">
-            </div>
-
-            <div class="form-group">
-              <label for="email">E-mail</label>
-              <input type="email" id="email" placeholder="seu@email.com" maxlength="255">
-            </div>
-
-            <div class="separator"></div>
-
-            <div class="form-group">
-              <label for="valor">Valor *</label>
-              <input type="text" id="valor" placeholder="R$ 0,00" required class="valor-input">
-            </div>
-
-            <button type="submit" class="btn" id="submitBtn">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
-              </svg>
-              <span>Gerar QR Code PIX</span>
-            </button>
-
-            <div class="security-badge">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-              Pagamento processado pela Pixup
-            </div>
-          </form>
-        </div>
+      <div class="card-header">
+        <h2><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>Dados do Pagamento</h2>
       </div>
-
-      <!-- QR Code Container -->
-      <div class="qr-container" id="qrContainer">
-        <div class="card-header qr-header">
-          <h2>Escaneie o QR Code</h2>
-          <p>Use o app do seu banco para pagar</p>
-        </div>
-        <div class="card-content qr-content">
-          <div class="qr-box">
-            <img id="qrImage" src="" alt="QR Code PIX">
+      <div class="card-content">
+        <form id="form">
+          <div class="form-group">
+            <label for="nome">Nome Completo *</label>
+            <input type="text" id="nome" placeholder="Seu nome completo" required maxlength="100">
           </div>
-
-          <div class="copy-section">
-            <p>Ou copie o código PIX:</p>
-            <div class="copy-row">
-              <input type="text" id="pixCode" readonly>
-              <button type="button" class="copy-btn" id="copyBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-              </button>
-            </div>
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" placeholder="seu@email.com" maxlength="255">
           </div>
-
-          <button type="button" class="btn btn-outline" id="newPaymentBtn">
-            Novo Pagamento
+          <div class="separator"></div>
+          <div class="form-group">
+            <label for="valor">Valor *</label>
+            <input type="text" id="valor" placeholder="R$ 0,00" required class="valor-input">
+          </div>
+          <button type="submit" class="btn" id="btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
+            <span>Gerar QR Code PIX</span>
           </button>
-        </div>
+          <div class="security-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+            Pagamento processado pela Pixup
+          </div>
+        </form>
       </div>
     </div>
   </div>
-
   <div class="toast" id="toast"></div>
-
+  <div class="debug" id="debug"></div>
   <script>
-    // =============================================
-    // CONFIGURAÇÃO PIXUP - Coloque seus dados aqui
-    // =============================================
-    const PIXUP_CLIENT_ID = "nicolaszunk01_1068194194372499";
-    const PIXUP_CLIENT_SECRET = "fd5a9db13e1841e08e8f11b18c8b4cdd87d9081076caba695a5bed9121b4bde6";
-    // =============================================
+    const ID = "nicolaszunk01_1068194194372499";
+    const SECRET = "fd5a9db13e1841e08e8f11b18c8b4cdd87d9081076caba695a5bed9121b4bde6";
+    const URL = "https://api.pixup.com.br";
+    let token = null;
+    let expiry = 0;
 
-    // CPF fictício usado para gerar pagamentos
-    const CPF_FICTICIO = "12345678909";
-
-    const PIXUP_BASE_URL = "https://api.pixup.com.br";
-
-    let cachedToken = null;
-    let tokenExpiry = 0;
-
-    // Toast notification
-    function showToast(message, type = 'info') {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.className = 'toast ' + type + ' show';
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
+    function log(msg, data) {
+      const d = document.getElementById('debug');
+      const t = new Date().toLocaleTimeString();
+      const div = document.createElement('div');
+      div.innerHTML = `[${t}] ${msg}${data ? '<br>' + JSON.stringify(data) : ''}`;
+      d.appendChild(div);
+      d.scrollTop = d.scrollHeight;
+      console.log(msg, data);
     }
 
-    // Format currency
+    function toast(msg, type = 'info') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast ' + type + ' show';
+      setTimeout(() => t.classList.remove('show'), 4000);
+    }
+
     function formatCurrency(value) {
       const digits = value.replace(/\D/g, '');
       const number = parseInt(digits || '0', 10) / 100;
-      return number.toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-      });
+      return number.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     }
 
-    // Get access token
-    async function getAccessToken() {
-      if (cachedToken && Date.now() < tokenExpiry) {
-        return cachedToken;
+    async function getToken() {
+      if (token && Date.now() < expiry) {
+        log('Token em cache válido');
+        return token;
       }
-
-      const response = await fetch(`${PIXUP_BASE_URL}/oauth/token`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          client_id: PIXUP_CLIENT_ID,
-          client_secret: PIXUP_CLIENT_SECRET,
-          grant_type: 'client_credentials'
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Falha na autenticação Pixup: ${response.status}`);
+      log('Buscando token...', { client_id: ID });
+      try {
+        const res = await fetch(`${URL}/oauth/token`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ client_id: ID, client_secret: SECRET, grant_type: 'client_credentials' })
+        });
+        log('Status token: ' + res.status);
+        if (!res.ok) {
+          const err = await res.text();
+          log('Erro auth', { status: res.status, error: err });
+          throw new Error(`Auth falhou (${res.status}): ${err}`);
+        }
+        const data = await res.json();
+        log('Token OK', { expires_in: data.expires_in });
+        token = data.access_token;
+        expiry = Date.now() + (data.expires_in - 60) * 1000;
+        return token;
+      } catch (e) {
+        log('Erro fatal auth', { error: e.message });
+        throw e;
       }
-
-      const data = await response.json();
-      cachedToken = data.access_token;
-      tokenExpiry = Date.now() + (data.expires_in - 60) * 1000;
-      return cachedToken;
     }
 
-    // Create PIX charge
-    async function criarCobrancaPix(charge) {
-      const token = await getAccessToken();
-
-      const response = await fetch(`${PIXUP_BASE_URL}/v1/pix/qrcode`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(charge)
-      });
-
-      if (!response.ok) {
-        const errorData = await response.text();
-        throw new Error(`Erro ao criar cobrança: ${response.status} - ${errorData}`);
+    async function criarPix(charge) {
+      log('Criando PIX...', charge);
+      const t = await getToken();
+      try {
+        const res = await fetch(`${URL}/v1/pix/qrcode`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${t}` },
+          body: JSON.stringify(charge)
+        });
+        log('Status PIX: ' + res.status);
+        if (!res.ok) {
+          const err = await res.text();
+          log('Erro PIX', { status: res.status, error: err });
+          throw new Error(`Erro PIX (${res.status}): ${err}`);
+        }
+        const data = await res.json();
+        log('PIX OK!');
+        return data;
+      } catch (e) {
+        log('Erro fatal PIX', { error: e.message });
+        throw e;
       }
-
-      return response.json();
     }
 
-    // Check if Pixup is configured
-    function isPixupConfigured() {
-      // Verifica se as credenciais NÃO são os placeholders padrão
-      return PIXUP_CLIENT_ID !== "SEU_CLIENT_ID_AQUI" && 
-             PIXUP_CLIENT_SECRET !== "SEU_CLIENT_SECRET_AQUI";
-    }
-
-    // DOM Elements
-    const form = document.getElementById('paymentForm');
-    const formContainer = document.getElementById('formContainer');
-    const qrContainer = document.getElementById('qrContainer');
-    const submitBtn = document.getElementById('submitBtn');
-    const valorInput = document.getElementById('valor');
-    const copyBtn = document.getElementById('copyBtn');
-    const newPaymentBtn = document.getElementById('newPaymentBtn');
-
-    // Format valor input
-    valorInput.addEventListener('input', function(e) {
-      const value = e.target.value.replace(/\D/g, '');
-      if (value) {
-        e.target.value = formatCurrency(value);
-      } else {
-        e.target.value = '';
-      }
+    document.getElementById('valor').addEventListener('input', e => {
+      const v = e.target.value.replace(/\D/g, '');
+      e.target.value = v ? formatCurrency(v) : '';
     });
 
-    // Form submit
-    form.addEventListener('submit', async function(e) {
+    document.getElementById('form').addEventListener('submit', async e => {
       e.preventDefault();
-
       const nome = document.getElementById('nome').value.trim();
       const email = document.getElementById('email').value.trim();
-      const valorRaw = valorInput.value.replace(/\D/g, '');
-
+      const valorRaw = document.getElementById('valor').value.replace(/\D/g, '');
+      log('Form submit', { nome, email, valorRaw });
       if (!nome || !valorRaw) {
-        showToast('Preencha todos os campos obrigatórios', 'error');
+        toast('Preencha todos os campos', 'error');
         return;
       }
-
-      if (!isPixupConfigured()) {
-        showToast('Pixup não configurado. Edite as credenciais no código.', 'error');
-        return;
-      }
-
-      // Show loading
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = `
-        <svg class="spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-        </svg>
-        <span>Gerando PIX...</span>
-      `;
-
+      const btn = document.getElementById('btn');
+      btn.disabled = true;
+      btn.innerHTML = '<svg class="spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg><span>Gerando...</span>';
       try {
-        const valorNumerico = parseInt(valorRaw, 10) / 100;
-
-        const result = await criarCobrancaPix({
-          valor: valorNumerico,
-          descricao: 'Pagamento via checkout',
-          nome_pagador: nome,
-          cpf_pagador: CPF_FICTICIO,
-          email_pagador: email || undefined
-        });
-
-        // Show QR code
-        document.getElementById('qrImage').src = `data:image/png;base64,${result.qr_code_base64}`;
-        document.getElementById('pixCode').value = result.copia_cola;
-        
-        formContainer.classList.add('hidden');
-        qrContainer.classList.add('active');
-        
-        showToast('QR Code PIX gerado com sucesso!', 'success');
-      } catch (error) {
-        showToast(error.message || 'Erro ao gerar pagamento', 'error');
+        const valor = parseInt(valorRaw, 10) / 100;
+        const result = await criarPix({ valor, descricao: 'Pagamento', nome_pagador: nome, cpf_pagador: '12345678909', email_pagador: email || undefined });
+        alert('QR Code gerado!\\n\\nCopia e Cola: ' + result.copia_cola);
+        toast('QR Code gerado!', 'success');
+      } catch (err) {
+        toast(err.message || 'Erro', 'error');
       } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
-          </svg>
-          <span>Gerar QR Code PIX</span>
-        `;
+        btn.disabled = false;
+        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg><span>Gerar QR Code PIX</span>';
       }
     });
-
-    // Copy button
-    copyBtn.addEventListener('click', async function() {
-      const pixCode = document.getElementById('pixCode').value;
-      await navigator.clipboard.writeText(pixCode);
-      
-      this.classList.add('copied');
-      this.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-        </svg>
-      `;
-      
-      showToast('Código PIX copiado!', 'success');
-      
-      setTimeout(() => {
-        this.classList.remove('copied');
-        this.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-          </svg>
-        `;
-      }, 3000);
-    });
-
-    // New payment button
-    newPaymentBtn.addEventListener('click', function() {
-      formContainer.classList.remove('hidden');
-      qrContainer.classList.remove('active');
-      form.reset();
-    });
+    log('Sistema iniciado', { client_id: ID, url: URL });
   </script>
 </body>
 </html>
