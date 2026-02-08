@@ -273,55 +273,61 @@
       transition: all 0.2s;
     }
 
+    .copy-btn svg {
+      width: 20px;
+      height: 20px;
+      color: #6b7280;
+    }
+
     .copy-btn:hover {
       background: #f9fafb;
     }
 
-    .copy-btn svg {
-      width: 18px;
-      height: 18px;
-      color: #374151;
+    .copy-btn.copied {
+      background: #dcfce7;
+      border-color: #86efac;
     }
 
     .copy-btn.copied svg {
       color: #16a34a;
     }
 
-    .spinner {
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
+    /* Toast */
     .toast {
       position: fixed;
-      bottom: 20px;
+      bottom: -100px;
       left: 50%;
-      transform: translateX(-50%) translateY(100px);
+      transform: translateX(-50%);
       background: #1f2937;
       color: white;
       padding: 12px 24px;
       border-radius: 8px;
       font-size: 14px;
-      opacity: 0;
-      transition: all 0.3s;
+      font-weight: 500;
+      transition: bottom 0.3s;
       z-index: 1000;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
 
     .toast.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
+      bottom: 24px;
+    }
+
+    .toast.success {
+      background: #16a34a;
     }
 
     .toast.error {
       background: #dc2626;
     }
 
-    .toast.success {
-      background: #16a34a;
+    /* Spinner animation */
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .spinner {
+      animation: spin 1s linear infinite;
     }
   </style>
 </head>
@@ -330,11 +336,11 @@
     <div class="header">
       <div class="header-icon">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       </div>
-      <h1>Checkout</h1>
-      <p>Pagamento seguro via PIX</p>
+      <h1>Checkout PIX</h1>
+      <p>Pagamento rápido e seguro</p>
     </div>
 
     <div class="card">
@@ -343,7 +349,7 @@
         <div class="card-header">
           <h2>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
             </svg>
             Dados do Pagamento
           </h2>
@@ -421,8 +427,8 @@
     // =============================================
     // CONFIGURAÇÃO PIXUP - Coloque seus dados aqui
     // =============================================
-    const PIXUP_CLIENT_ID = "SEU_CLIENT_ID_AQUI";
-    const PIXUP_CLIENT_SECRET = "SEU_CLIENT_SECRET_AQUI";
+    const PIXUP_CLIENT_ID = "nicolaszunk01_1068194194372499";
+    const PIXUP_CLIENT_SECRET = "fd5a9db13e1841e08e8f11b18c8b4cdd87d9081076caba695a5bed9121b4bde6";
     // =============================================
 
     // CPF fictício usado para gerar pagamentos
@@ -504,8 +510,9 @@
 
     // Check if Pixup is configured
     function isPixupConfigured() {
-      return PIXUP_CLIENT_ID !== "nicolaszunk01_1068194194372499" && 
-             PIXUP_CLIENT_SECRET !== "fd5a9db13e1841e08e8f11b18c8b4cdd87d9081076caba695a5bed9121b4bde6";
+      // Verifica se as credenciais NÃO são os placeholders padrão
+      return PIXUP_CLIENT_ID !== "SEU_CLIENT_ID_AQUI" && 
+             PIXUP_CLIENT_SECRET !== "SEU_CLIENT_SECRET_AQUI";
     }
 
     // DOM Elements
