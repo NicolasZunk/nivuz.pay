@@ -1,0 +1,11 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "env": {
+    "PIXUP_USER": "@pixup_user",
+    "PIXUP_CLIENT_ID": "@pixup_client_id",
+    "PIXUP_API_URL": "@pixup_api_url"
+  }
+}
